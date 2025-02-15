@@ -71,12 +71,4 @@ You can enter queries related to the extracted data. Type `exit` to quit.
 - If the scraper fails, check if the target website has changed its structure.
 - If embeddings fail, verify that `sentence-transformers` is installed and properly configured.
 
-## License
-This project is licensed under the MIT License.
-
-## Contributors
-- Your Name (@your-github)
-
-## Contact
-For any issues, feel free to create an issue in the GitHub repository or reach out via email at `your-email@example.com`.
 
