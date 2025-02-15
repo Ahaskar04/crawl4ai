@@ -13,8 +13,10 @@ INSTRUCTION_TO_LLM = "Extract all rows from the main table as objects with 'rank
 
 # Define the schema for extracted data
 class Product(BaseModel):
-    name: str
-    price: str
+    rank: str
+    model: str
+    arena_score: str
+    confidence_interval: str
 
 # Main asynchronous function
 async def main():
@@ -48,13 +50,20 @@ async def main():
     async with AsyncWebCrawler(config=browser_cfg) as crawler:
         result = await crawler.arun(url=URL_TO_SCRAPE, config=crawl_config)
 
-        # Check if the crawling and extraction succeeded
-        if result.success:
-            data = json.loads(result.extracted_content)  # Parse the extracted content
-            print("Extracted items:", data)  # Print extracted data
-            llm_strategy.show_usage()  # Show LLM usage stats
-        else:
-            print("Error:", result.error_message)  # Print error message if extraction fails
+    # Check if the crawling and extraction succeeded
+    if result.success:
+        data = json.loads(result.extracted_content)  # Parse the extracted content
+        print("Extracted items:", data)  # Print extracted data
+        
+        # Save the extracted data to a JSON file
+        output_file = "scraped_data.json"
+        with open(output_file, "w") as f:
+            json.dump(data, f, indent=4)
+        print(f"Data saved to {output_file}")
+
+        llm_strategy.show_usage()  # Show LLM usage stats
+    else:
+        print("Error:", result.error_message)  # Print error message if extraction fails
 
 # Run the asynchronous main function
 if __name__ == "__main__":
